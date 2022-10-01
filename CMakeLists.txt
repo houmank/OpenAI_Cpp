@@ -2,8 +2,9 @@ CMAKE_MINIMUM_REQUIRED (VERSION 3.6)
 Project (openai_cpp VERSION 0.0.1 LANGUAGES CXX)
 
 Include (FetchContent)
+enable_testing()
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 
 Set (SRC src/)
 
@@ -29,24 +30,30 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(cpr)
 
-
 ## Adding and linking libraries
 Add_library (${PROJECT_NAME} STATIC ${SRC_FILES})
 
+target_compile_options(${PROJECT_NAME} PRIVATE
+  $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
+)
+
+
 Target_Include_directories (${PROJECT_NAME}
       PUBLIC
-            $<INSTALL_INTERFACE:include>
-            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+            
       PRIVATE
-
+	$<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
 Target_Link_Libraries (${PROJECT_NAME} 
       PUBLIC
-
-      PRIVATE
-            nlohmann_json::nlohmann_json
-            cpr::cpr
+        nlohmann_json::nlohmann_json
+        cpr::cpr
+      PRIVATE           
 )
 
+message(STATUS "Test CMake")
+add_subdirectory(test)
 message(STATUS "Done with lib cache generation!")
