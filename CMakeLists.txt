@@ -41,17 +41,18 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 
 Target_Include_directories (${PROJECT_NAME}
       PUBLIC
-            
+            $<INSTALL_INTERFACE:include>
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
       PRIVATE
-	$<INSTALL_INTERFACE:include>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+	
 )
 
 Target_Link_Libraries (${PROJECT_NAME} 
       PUBLIC
-        nlohmann_json::nlohmann_json
-        cpr::cpr
-      PRIVATE           
+        
+      PRIVATE
+            nlohmann_json::nlohmann_json
+            cpr::cpr
 )
 
 message(STATUS "Test CMake")
