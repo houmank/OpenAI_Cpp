@@ -2,17 +2,19 @@ CMAKE_MINIMUM_REQUIRED (VERSION 3.6)
 Project (openai_cpp VERSION 0.0.1 LANGUAGES CXX)
 
 Include (FetchContent)
-enable_testing()
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-Set (SRC src/)
+enable_testing()
 
 File (GLOB SRC_FILES
-      ${SRC}/*.cpp
+      src/*.cpp
+      src/*/*.cpp src/*/*/*.cpp
 )
 
 ## Fetch external libs
+
 # nlohmann json
 message(STATUS "Fetching OpenAI_Cpp dependencies!")
 FetchContent_Declare(
@@ -30,31 +32,45 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(cpr)
 
+# fetch googletest
+message(STATUS "Fetching googletest")
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG release-1.12.1
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+set(BUILD_GTEST ON CACHE BOOL "" FORCE)
+set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+FetchContent_GetProperties(googletest)
+if(NOT googletest_POPULATED)
+    FetchContent_Populate(googletest)
+    add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BUILD_DIR})
+endif()
+
 ## Adding and linking libraries
 Add_library (${PROJECT_NAME} STATIC ${SRC_FILES})
 
 target_compile_options(${PROJECT_NAME} PRIVATE
-  $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+  $<$<CXX_COMPILER_ID:MSVC>:/W4 >#/WX>
   $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
 )
-
 
 Target_Include_directories (${PROJECT_NAME}
       PUBLIC
             $<INSTALL_INTERFACE:include>
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
       PRIVATE
-	
 )
 
 Target_Link_Libraries (${PROJECT_NAME} 
       PUBLIC
-        
+            
       PRIVATE
             nlohmann_json::nlohmann_json
             cpr::cpr
 )
 
-message(STATUS "Test CMake")
 add_subdirectory(test)
 message(STATUS "Done with lib cache generation!")

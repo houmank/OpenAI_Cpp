@@ -1,33 +1,41 @@
 cmake_minimum_required(VERSION 3.6)
-project(openai_test)
+set(This openai_test)
 
-include (FetchContent)
-
-File(GLOB SRC_FILES
+File(GLOB SRC_TESTS
      *.cpp
 )
 
-# fetch googletest
-message(STATUS "Fetching googletest")
-FetchContent_Declare(
-  googletest
-  GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG release-1.12.1
+message(STATUS "Googletest executable")
+add_executable(${This} ${SRC_TESTS})
+target_link_libraries(${This} 
+          PUBLIC
+               GTest::gtest
+               GTest::gtest_main 
+               openai_cpp
 )
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-
-
-add_executable(${PROJECT_NAME} ${SRC_FILES})
-target_link_libraries(${PROJECT_NAME} 
-                      PUBLIC 
-                          gtest_main
-                          openai_cpp
-)
-target_include_directories(${PROJECT_NAME} PRIVATE openai_cpp)
+target_include_directories(${This} PRIVATE openai_cpp)
 
 add_test(
-    NAME ${PROJECT_NAME}
-    COMMAND ${PROJECT_NAME}
+    NAME ${This}
+    COMMAND ${This}
+)
+
+# https://stackoverflow.com/a/72341403
+if (WIN32)
+    add_custom_command(
+        TARGET ${This}
+        COMMENT "Copy DLLs"
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${This}> $<TARGET_FILE_DIR:${This}>
+        COMMAND_EXPAND_LISTS
+    )
+endif ()
+
+# https://stackoverflow.com/a/32902353
+add_custom_command(
+     TARGET ${This}
+     COMMENT "Run tests"
+     POST_BUILD 
+     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+     COMMAND ${CMAKE_CTEST_COMMAND} -C $<CONFIGURATION> -R "^${This}$" --output-on-failures
 )
