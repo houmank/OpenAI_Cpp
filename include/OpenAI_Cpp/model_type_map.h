@@ -35,7 +35,7 @@ public:
 	const std::unordered_map<std::string, AI::ModelType>& GetStringToModelMap();
 
 private:
-	const std::unordered_map<AI::ModelType, std::string> modelToStringMap;
-	const std::unordered_map<std::string, AI::ModelType> stringToModelMap;
+	std::unordered_map<AI::ModelType, std::string> modelToStringMap;
+	std::unordered_map<std::string, AI::ModelType> stringToModelMap;
 };
 }
