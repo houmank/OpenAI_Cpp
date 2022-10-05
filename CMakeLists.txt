@@ -10,7 +10,8 @@ enable_testing()
 
 File (GLOB SRC_FILES
       src/*.cpp
-      src/*/*.cpp src/*/*/*.cpp
+      src/*/*.cpp 
+      src/*/*/*.cpp
 )
 
 ## Fetch external libs
@@ -66,10 +67,11 @@ Target_Include_directories (${PROJECT_NAME}
 
 Target_Link_Libraries (${PROJECT_NAME} 
       PUBLIC
-            
+           nlohmann_json::nlohmann_json
+           cpr::cpr
       PRIVATE
-            nlohmann_json::nlohmann_json
-            cpr::cpr
+           nlohmann_json::nlohmann_json
+           cpr::cpr
 )
 
 add_subdirectory(test)
