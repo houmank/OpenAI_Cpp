@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.6)
 set(This openai_test)
 
+Set(API_KEY_FILENAME OpenAI_API_SK.txt)
+
 File(GLOB SRC_TESTS
      *.cpp
 )
@@ -30,6 +32,14 @@ if (WIN32)
         COMMAND_EXPAND_LISTS
     )
 endif ()
+
+# Copy SK from test source folder to .exe
+add_custom_command(
+        TARGET ${This}
+        COMMENT "Copy Secret Key"
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/${API_KEY_FILENAME} ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 # https://stackoverflow.com/a/32902353
 add_custom_command(
