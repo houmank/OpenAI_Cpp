@@ -6,7 +6,7 @@ namespace AI
 {
 
 /**
-* @brief ModelType is used to categorize the many openai engines available to users. Some are only available for certain endpoints
+* @brief ModelType is used to categorize the popular openai models available. Some are only available for certain endpoints
 * so it is important we keep track of which model type is used. 
 * 
 * This provides access to GPT-3 Models, Codex Models, and Content filter models.

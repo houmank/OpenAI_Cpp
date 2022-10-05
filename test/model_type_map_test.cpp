@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "OpenAI_Cpp/model_type_map.h"
+#include "OpenAI_Cpp/Models/model_type_map.h"
 
 #include <string>
 
