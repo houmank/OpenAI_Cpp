@@ -20,9 +20,14 @@ namespace AI
 class Model
 {
 public:
-	// Friend classes
+	// Make OpenAI class friend so it can access private variables
 	friend class OpenAI;
-	
+
+	/**
+	* Default ctro, shouldn't be used as the id is necessary for initialization by OpenAI class.
+	* Only included so json can deserialize. This ctor should never be called by the user.
+	*/
+	Model() = default;
 
 	/**
 	* @brief Model constructor takes in the id of the model. If a user wants a well-known model
@@ -33,8 +38,6 @@ public:
 	*/
 	Model(const std::string& id);
 
-
-
 	/**
 	* @brief Model constructor accepts a ModelType enum. These modeltype enums are availble for the
 	* most of the popular models available currently. See https://beta.openai.com/docs/models/overview.
@@ -43,6 +46,31 @@ public:
 	* @param modelType is the enum indicating which well known model to use
 	*/
 	Model(AI::ModelType modelType);
+
+	/**
+	* @brief Model destructor
+	*/
+	~Model();
+
+	/**
+	* @brief copy constructor, deleted as the Model objects shouldn't be copied once constructed.
+	*/
+	Model(const Model&) = delete;
+
+	/**
+	* @brief simple move constructor for Model class.
+	*/
+	Model(Model&& other) noexcept;
+
+	/**
+	* @brief copy assingment operator, deleted as the Model objects shouldn't be copied once constructed.
+	*/
+	Model& operator=(const Model&) = delete;
+
+	/**
+	* @brief simple move assignment operator for Model class.
+	*/
+	Model& operator=(Model&& other) noexcept;
 
 private:
 	std::string id;

@@ -17,4 +17,22 @@ Model::Model(AI::ModelType model)
 {
 	this->id = this->model_type_map.GetModelToStringMap().at(model);
 }
+
+Model::~Model() {}
+
+Model::Model(Model&& other) noexcept :
+	id(std::move(other.id)), object(std::move(other.object)),
+	owned_by(std::move(other.owned_by)), permission(std::move(other.permission))
+{}
+
+Model& Model::operator=(Model&& other) noexcept
+{
+	id = std::move(other.id);
+	object = std::move(other.object);
+	owned_by = std::move(other.owned_by);
+	permission = std::move(other.permission);
+
+	return *this;
+}
+
 }
