@@ -16,14 +16,9 @@ File (GLOB SRC_FILES
 
 ## Fetch external libs
 
-# nlohmann json
 message(STATUS "Fetching OpenAI_Cpp dependencies!")
-FetchContent_Declare(
-      json 
-      GIT_REPOSITORY "https://github.com/nlohmann/json"
-      GIT_TAG "bc889afb4c5bf1c0d8ee29ef35eaaf4c8bef8a5d" # tag version 3.11.2
-)
-FetchContent_MakeAvailable(json)
+# RapidJSON
+# Just downloaded and embeded header files into project, might make it pull most recent using fetch later
 
 # libcpr
 FetchContent_Declare(
@@ -67,10 +62,8 @@ Target_Include_directories (${PROJECT_NAME}
 
 Target_Link_Libraries (${PROJECT_NAME} 
       PUBLIC
-           nlohmann_json::nlohmann_json
            cpr::cpr
       PRIVATE
-           nlohmann_json::nlohmann_json
            cpr::cpr
 )
 
