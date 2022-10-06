@@ -16,17 +16,17 @@ namespace AI
 */
 struct Permission
 {
-	std::string id;
-	std::string object;
-	uint64_t created;
-	bool allow_create_engine;
-	bool allow_sampling;
-	bool allow_logprobs;
-	bool allow_search_indices;
-	bool allow_view;
-	bool allow_fine_tuning;
-	std::string organization;
-	std::string group;
-	bool is_blocking;
+	std::string id = "";
+	std::string object = "";
+	uint64_t created = 0;
+	bool allow_create_engine = false;
+	bool allow_sampling = false;
+	bool allow_logprobs = false;
+	bool allow_search_indices = false;
+	bool allow_view = false;
+	bool allow_fine_tuning = false;
+	std::string organization = "*";
+	std::string group = "*";
+	bool is_blocking = false;
 };
 }
