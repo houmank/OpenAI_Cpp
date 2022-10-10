@@ -1,4 +1,6 @@
 #include "OpenAI_Cpp/open_ai.h"
+#include "OpenAI_Cpp/Utility/json_helper.h"
+
 #include <iostream>
 
 namespace AI 
@@ -32,7 +34,10 @@ void OpenAI::initModel()
 	cpr::Response modelResponse = cpr::Get(cpr::Url(url),
 		                          cpr::Bearer(this->api_key_auth));
 
-	std::cout << modelResponse.text << std::endl;
+	rapidjson::Document json;
+	json.Parse(modelResponse.text.c_str(), modelResponse.text.length());
+	
+
 }
 
 }

@@ -3,7 +3,7 @@
 #include <string>
 
 #include "cpr/cpr.h"
-#include "nlohmann/json.hpp"
+#include "rapidjson/rapidjson.h"
 
 #include "OpenAI_Cpp/Models/models.h"
 
