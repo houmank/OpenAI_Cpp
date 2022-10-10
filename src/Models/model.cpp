@@ -10,7 +10,6 @@ Model::Model(const std::string& id)
 {
 }
 
-
 Model::Model(AI::ModelType model)
 	: id(""), object(""), owned_by(""),
 	permission(nullptr)
@@ -34,5 +33,19 @@ Model& Model::operator=(Model&& other) noexcept
 
 	return *this;
 }
+
+const std::string& Model::getId() const { return this->id; }
+
+const std::string& Model::getObject() const { return this->object; }
+
+const std::string& Model::getOwnedBy() const { return this->owned_by; }
+
+const AI::Permission& Model::getPermission() const { return *(this->permission); }
+
+void Model::setObject(std::string object) { this->object = std::move(object); }
+
+void Model::setOwnedBy(std::string owned_by) { this->object = std::move(owned_by); }
+
+void Model::setPermission(std::unique_ptr<AI::Permission>& permission) { this->permission = std::move(permission); }
 
 }

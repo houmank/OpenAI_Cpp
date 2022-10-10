@@ -20,7 +20,6 @@ namespace AI
 class Model
 {
 public:
-	// Make OpenAI class friend so it can access private variables
 	friend class OpenAI;
 
 	/**
@@ -34,7 +33,7 @@ public:
 	* they can use the overloaded constructor which takes in a ModelType enum. Users shouldnt call this
 	* constructor, instead they should use OpenAI.Model to get model referrence.
 	* 
-	* @param id the id assigned by openai to the model..
+	* @param id the id assigned by openai to the model.
 	*/
 	Model(const std::string& id);
 
@@ -71,6 +70,60 @@ public:
 	* @brief simple move assignment operator for Model class.
 	*/
 	Model& operator=(Model&& other) noexcept;
+
+	// Getters and setters
+	// -------------------------
+
+	/**
+	* @brief getId is a getter for the id field.
+	*
+	* @return object const& to id string
+	*/
+	const std::string& getId() const;
+
+	/**
+	* @brief getObject is a getter for the object field.
+	* 
+	* @return object const& to object string
+	*/
+	const std::string& getObject() const;
+
+	/**
+	* @brief getOwnedBy is a getter for the owned_by field
+	* 
+	* @return owned_by const& to owned_by string
+	*/
+	const std::string& getOwnedBy() const;
+
+	/**
+	* @brief getPermission is a getter for the permission field
+	* 
+	* @return permission const& to AI::Permission object
+	*/
+	const AI::Permission& getPermission() const;
+
+	/**
+	* @brief setObject is a setter for object field
+	* 
+	* @param object copy of the object which will be assigned
+	*/
+	void Model::setObject(std::string object);
+
+	/**
+	* @brief setOwnedBy is a setter for owned_by field
+	* 
+	* @param owned_by copy of owned_by string which will be assigned
+	*/
+	void Model::setOwnedBy(std::string owned_by);
+
+	/**
+	* @brief setPermission is a stter for permission field. Note that ownership of 
+	* the permission object will be transfered to model, passed in permission pointer will be 
+	* invalid after setter is called.
+	* 
+	* @param permission referrence to permission object which will be moved into this model.
+	*/
+	void Model::setPermission(std::unique_ptr<AI::Permission>& permission);
 
 private:
 	std::string id;
