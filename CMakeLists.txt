@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 enable_testing()
+set(BUILD_TESTS true)
+set(RUN_TESTS_POST_BUILD false)
 
 File (GLOB SRC_FILES
       src/*.cpp
@@ -67,5 +69,8 @@ Target_Link_Libraries (${PROJECT_NAME}
            cpr::cpr
 )
 
-add_subdirectory(test)
+if(BUILD_TESTS)
+    message(STATUS "Building tests!")
+    add_subdirectory(test)
+endif()
 message(STATUS "Done with lib cache generation!")

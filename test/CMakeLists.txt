@@ -5,6 +5,8 @@ Set(API_KEY_FILENAME OpenAI_API_SK.txt)
 
 File(GLOB SRC_TESTS
      *.cpp
+     */*.cpp
+     */*/*.cpp
 )
 
 message(STATUS "Googletest executable")
@@ -41,12 +43,14 @@ add_custom_command(
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/${API_KEY_FILENAME} ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-# https://stackoverflow.com/a/32902353
-add_custom_command(
-     TARGET ${This}
-     COMMENT "Run tests"
-     POST_BUILD 
-     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-     COMMAND ${This}
-     #COMMAND ${CMAKE_CTEST_COMMAND} -C $<CONFIGURATION> -R "^${This}$" --output-on-failures
-)
+if(RUN_TESTS_POST_BUILD)
+    # https://stackoverflow.com/a/32902353
+    add_custom_command(
+         TARGET ${This}
+         COMMENT "Run tests"
+         POST_BUILD 
+         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+         COMMAND ${This}
+         #COMMAND ${CMAKE_CTEST_COMMAND} -C $<CONFIGURATION> -R "^${This}$" --output-on-failures
+    )
+endif()
