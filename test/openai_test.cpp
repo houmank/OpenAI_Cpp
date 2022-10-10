@@ -26,6 +26,7 @@ public:
 
 	virtual void SetUp() override
 	{
+		ASSERT_TRUE(!secret.empty());
 		openai = std::make_unique<AI::OpenAI>(secret);
 	}
 
