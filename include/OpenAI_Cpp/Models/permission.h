@@ -25,8 +25,6 @@ struct Permission
 	bool allow_search_indices = false;
 	bool allow_view = false;
 	bool allow_fine_tuning = false;
-	std::string organization = "*";
-	std::string group = "*";
 	bool is_blocking = false;
 };
 }
