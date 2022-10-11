@@ -82,6 +82,7 @@ AI::Error deserializeModelFromJson(rapidjson::Value* modelJsonPtr, std::unique_p
 		using rapidjson::Pointer;
 
 		modelObj->setObject(Pointer("/object").Get(*modelJsonPtr)->GetString());
+		modelObj->setCreated(Pointer("/created").Get(*modelJsonPtr)->GetUint64());
 		modelObj->setOwnedBy(Pointer("/owned_by").Get(*modelJsonPtr)->GetString());
 		auto permission_parse = AI::deserializePermissionFromJson(Pointer("/permission").Get(*modelJsonPtr));
 		if (const AI::Error* error = std::get_if<AI::Error>(&permission_parse))
