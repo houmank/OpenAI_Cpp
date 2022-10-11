@@ -89,6 +89,13 @@ public:
 	const std::string& getObject() const;
 
 	/**
+	* @brief getCreated is a getter for the created time field.
+	* 
+	* @return created const unit64_t representing unix time
+	*/
+	const std::uint64_t getCreated() const;
+
+	/**
 	* @brief getOwnedBy is a getter for the owned_by field
 	* 
 	* @return owned_by const& to owned_by string
@@ -107,14 +114,21 @@ public:
 	* 
 	* @param object copy of the object which will be assigned
 	*/
-	void Model::setObject(std::string object);
+	void setObject(std::string object);
+
+	/**
+	* @brief setCreated is a setter for the created field
+	* 
+	* @param created uint64_t unix time which will be assigned to created field
+	*/
+	void setCreated(std::uint64_t created);
 
 	/**
 	* @brief setOwnedBy is a setter for owned_by field
 	* 
 	* @param owned_by copy of owned_by string which will be assigned
 	*/
-	void Model::setOwnedBy(std::string owned_by);
+	void setOwnedBy(std::string owned_by);
 
 	/**
 	* @brief setPermission is a stter for permission field. Note that ownership of 
@@ -123,11 +137,12 @@ public:
 	* 
 	* @param permission referrence to permission object which will be moved into this model.
 	*/
-	void Model::setPermission(std::unique_ptr<AI::Permission>& permission);
+	void setPermission(std::unique_ptr<AI::Permission>& permission);
 
 private:
 	std::string id;
 	std::string object;
+	std::uint64_t created;
 	std::string owned_by;
 	std::unique_ptr<AI::Permission> permission;
 
